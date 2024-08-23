@@ -1,7 +1,8 @@
-using estateAgents.Areas.Data;
+﻿using estateAgents.Areas.Data;
 using estateAgents.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace estateAgents
 {
@@ -10,6 +11,8 @@ namespace estateAgents
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Services.AddDbContext<estateAgentsHomeDbContext>(options =>
+                options.UseSqlServer(builder.Configuration.GetConnectionString("estateAgentsHomeDbContext") ?? throw new InvalidOperationException("Connection string 'estateAgentsHomeDbContext' not found.")));
 
             // Add services to the container.
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
